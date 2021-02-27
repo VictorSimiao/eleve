@@ -7,9 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Categoria {
+public class Produto {
 
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,18 +27,28 @@ public class Categoria {
 	private Long id;
 
 	private String nome;
+
+	private String descricao;
+
+	private Double preco;
+
+	private String urlImagem;
 	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "categorias")
-	private Set<Produto> produtos = new HashSet<>();
+	@ManyToMany
+	@JoinTable(name = "produto_categoria",
+	joinColumns = @JoinColumn(name ="produto_id"),
+	inverseJoinColumns = @JoinColumn(name = "categoria_Id"))
+	private Set<Categoria> categorias = new HashSet<>();
 
-	public Categoria() {
-
+	public Produto() {
 	}
 
-	public Categoria(Long id, String nome) {
+	public Produto(Long id, String nome, String descricao, Double preco, String urlImagem) {
 		this.id = id;
 		this.nome = nome;
+		this.descricao = descricao;
+		this.preco = preco;
+		this.urlImagem = urlImagem;
 	}
 
 }
