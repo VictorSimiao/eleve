@@ -34,5 +34,17 @@ public class UsuarioService {
 		usuarioRepository.deleteById(id);
 		// TODO implemetar execeção
 	}
+	
+	public Usuario atualizar(Long id, Usuario usuarioRequest) {
+		Usuario usuarioDB = usuarioRepository.getOne(id);
+		atualizarDados(usuarioDB,usuarioRequest);
+		return usuarioRepository.save(usuarioDB);
+	}
+
+	private void atualizarDados(Usuario usuarioDB, Usuario usuarioRequest) {
+		usuarioDB.setNome(usuarioRequest.getNome());
+		usuarioDB.setEmail(usuarioRequest.getEmail());
+		usuarioDB.setTelefone(usuarioRequest.getTelefone());
+	}
 
 }
