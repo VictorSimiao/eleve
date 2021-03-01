@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.victorreis.eleve.model.Usuario;
 import br.com.victorreis.eleve.repository.UsuarioRepository;
+import br.com.victorreis.eleve.service.exception.DatabaseException;
 import br.com.victorreis.eleve.service.exception.RecursoNotFoundException;
 
 @Service
@@ -31,8 +34,13 @@ public class UsuarioService {
 	
 	
 	public void deletar(Long id) {
+		try {
 		usuarioRepository.deleteById(id);
-		// TODO implemetar execeção
+		}catch (EmptyResultDataAccessException e) {//Usuario que não existe
+			throw new RecursoNotFoundException(id);
+		}catch (DataIntegrityViolationException e) { //Usuario associado
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 	
 	public Usuario atualizar(Long id, Usuario usuarioRequest) {
