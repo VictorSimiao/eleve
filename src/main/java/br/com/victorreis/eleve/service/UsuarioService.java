@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.victorreis.eleve.model.Usuario;
 import br.com.victorreis.eleve.repository.UsuarioRepository;
+import br.com.victorreis.eleve.service.exception.RecursoNotFoundException;
 
 @Service
 public class UsuarioService {
@@ -21,8 +22,7 @@ public class UsuarioService {
 
 	public Usuario findById(Long id) {
 		Optional<Usuario> optional = usuarioRepository.findById(id);
-		// TODO implemetar execeção
-		return optional.get();
+		return optional.orElseThrow(() -> new RecursoNotFoundException(id));
 	}
 	
 	public Usuario save(Usuario usuario) {
