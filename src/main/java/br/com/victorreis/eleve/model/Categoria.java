@@ -1,5 +1,6 @@
 package br.com.victorreis.eleve.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +20,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Categoria {
+public class Categoria implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,5 +43,9 @@ public class Categoria {
 		this.id = id;
 		this.nome = nome;
 	}
+
+	
+	
+	
 
 }

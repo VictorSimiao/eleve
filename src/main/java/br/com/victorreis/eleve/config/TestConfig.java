@@ -10,11 +10,13 @@ import org.springframework.context.annotation.Profile;
 /**Classe exclusiva para perfil de test */
 
 import br.com.victorreis.eleve.model.Categoria;
+import br.com.victorreis.eleve.model.ItemPedido;
 import br.com.victorreis.eleve.model.Pedido;
 import br.com.victorreis.eleve.model.Produto;
 import br.com.victorreis.eleve.model.Usuario;
 import br.com.victorreis.eleve.model.enums.StatusPedido;
 import br.com.victorreis.eleve.repository.CategoriaRepository;
+import br.com.victorreis.eleve.repository.ItemPedidoRepository;
 import br.com.victorreis.eleve.repository.PedidoRepository;
 import br.com.victorreis.eleve.repository.ProdutoRepository;
 import br.com.victorreis.eleve.repository.UsuarioRepository;
@@ -32,6 +34,8 @@ public class TestConfig implements CommandLineRunner{
 	private CategoriaRepository categoriaRepository;
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	
 	@Override
@@ -74,7 +78,13 @@ public class TestConfig implements CommandLineRunner{
 		//Salvando os produtos com as associações
 		produtoRepository.saveAll(Arrays.asList(pr1,pr2,pr3,pr4,pr5));
 		
+		//ItemPedido
+		ItemPedido itemP1 = new ItemPedido(pr1, p1, 2, pr1.getPreco());
+		ItemPedido itemP2 = new ItemPedido(pr3, p1, 1, pr3.getPreco());
+		ItemPedido itemP3 = new ItemPedido(pr3, p2, 2, pr3.getPreco());
+		ItemPedido itemP4 = new ItemPedido(pr5, p3, 2, pr5.getPreco());
 		
+		itemPedidoRepository.saveAll(Arrays.asList(itemP1,itemP2,itemP3,itemP4));
 		
 	}
 

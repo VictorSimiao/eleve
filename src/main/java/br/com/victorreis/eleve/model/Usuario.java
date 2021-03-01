@@ -1,5 +1,6 @@
 package br.com.victorreis.eleve.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,10 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Usuario {
+public class Usuario implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
