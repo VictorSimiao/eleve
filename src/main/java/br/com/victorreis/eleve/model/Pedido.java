@@ -26,7 +26,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Pedido implements Serializable{
+public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -43,11 +43,11 @@ public class Pedido implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
-	
+
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
-	
-	@OneToOne(mappedBy = "pedido",cascade = CascadeType.ALL)
+
+	@OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private Pagamento pagamento;
 
 	public Pedido() {
@@ -62,18 +62,26 @@ public class Pedido implements Serializable{
 	}
 
 	// Bizu : Para ultilizar enum manualmente
-	//O usuario passa o enum do StatusPedido(AGUARDANDO_PAGAMENTO,PAGO...)
-	//Eu Pego o codigo deste enum (Integer) e salvo no banco
+	// O usuario passa o enum do StatusPedido(AGUARDANDO_PAGAMENTO,PAGO...)
+	// Eu Pego o codigo deste enum (Integer) e salvo no banco
 	public void setStatusPedido(StatusPedido statusPedido) {
 		if (statusPedido != null) {
 			this.statusPedido = statusPedido.getCodigo();
 		}
 	}
-	//Pego o codigo do status pedido e transformo em um objeto StatusPedido
+
+	// Pego o codigo do status pedido e transformo em um objeto StatusPedido
 	public StatusPedido getStatusPedido() {
 		return StatusPedido.valueOf(statusPedido);
 	}
 
-	
+	public Double getTotatl() {
+		double soma = 0;
+		for (ItemPedido itemPedido : itens) {
+			soma += itemPedido.getSubTotal();
+		}
+		return soma;
+
+	}
 
 }
