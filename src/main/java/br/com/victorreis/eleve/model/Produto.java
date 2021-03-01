@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,7 +23,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Produto implements Serializable{
+public class Produto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,12 +39,14 @@ public class Produto implements Serializable{
 	private Double preco;
 
 	private String urlImagem;
-	
+
 	@ManyToMany
-	@JoinTable(name = "produto_categoria",
-	joinColumns = @JoinColumn(name ="produto_id"),
-	inverseJoinColumns = @JoinColumn(name = "categoria_Id"))
+	@JoinTable(name = "produto_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_Id"))
 	private Set<Categoria> categorias = new HashSet<>();
+
+	@OneToMany(mappedBy = "id.produto")
+	@JsonIgnore
+	private Set<ItemPedido> itens = new HashSet<>();
 
 	public Produto() {
 	}
@@ -52,6 +57,15 @@ public class Produto implements Serializable{
 		this.descricao = descricao;
 		this.preco = preco;
 		this.urlImagem = urlImagem;
+	}
+	
+	@JsonIgnore
+	public Set<Pedido> getPedidos() {
+		Set<Pedido> set = new HashSet<>();
+		for (ItemPedido itemPedido : itens) {
+			set.add(itemPedido.getPedido());
+		}
+		return set;
 	}
 
 }

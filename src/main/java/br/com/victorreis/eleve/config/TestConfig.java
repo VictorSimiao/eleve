@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 
 import br.com.victorreis.eleve.model.Categoria;
 import br.com.victorreis.eleve.model.ItemPedido;
+import br.com.victorreis.eleve.model.Pagamento;
 import br.com.victorreis.eleve.model.Pedido;
 import br.com.victorreis.eleve.model.Produto;
 import br.com.victorreis.eleve.model.Usuario;
@@ -85,6 +86,11 @@ public class TestConfig implements CommandLineRunner{
 		ItemPedido itemP4 = new ItemPedido(pr5, p3, 2, pr5.getPreco());
 		
 		itemPedidoRepository.saveAll(Arrays.asList(itemP1,itemP2,itemP3,itemP4));
+		
+		//Pagamento
+		Pagamento pagamento = new Pagamento(null, Instant.parse("2019-06-20T21:53:07Z"), p1);
+		p1.setPagamento(pagamento);
+		pedidoRepository.save(p1);
 		
 	}
 
