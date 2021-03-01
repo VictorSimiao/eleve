@@ -24,5 +24,9 @@ public class UsuarioService {
 		// TODO implemetar execeção
 		return optional.get();
 	}
+	
+	public Usuario save(Usuario usuario) {
+		return usuarioRepository.save(usuario);
+	}
 
 }
